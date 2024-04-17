@@ -1,0 +1,177 @@
+swagger: '2.0'
+info:
+  title: API
+  description: API for the project.
+  version: v1
+host: localhost:8000
+schemes:
+- http
+basePath: /api
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /customers:
+    get:
+      operationId: customers_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+      tags:
+      - customers
+    post:
+      operationId: customers_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+      - customers
+    parameters: []
+  /customers/{id}:
+    get:
+      operationId: customers_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+      - customers
+    put:
+      operationId: customers_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+      - customers
+    patch:
+      operationId: customers_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customer'
+      tags:
+      - customers
+    delete:
+      operationId: customers_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - customers
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this customer.
+      required: true
+      type: integer
+definitions:
+  Customer:
+    required:
+    - document_number
+    - phone_number
+    - address
+    - user
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      document_type:
+        title: Document type
+        description: Customer document type
+        type: string
+        enum:
+        - DNI
+        - RUC
+        - PASSPORT
+      document_number:
+        title: Document number
+        description: Customer document number
+        type: string
+        maxLength: 15
+        minLength: 1
+      birth_date:
+        title: Birth date
+        description: Customer birth date
+        type: string
+        format: date
+        x-nullable: true
+      phone_number:
+        title: Phone number
+        description: Customer phone number
+        type: string
+        maxLength: 10
+        minLength: 1
+      address:
+        title: Address
+        description: Customer address
+        type: string
+        maxLength: 100
+        minLength: 1
+      cci:
+        title: Cci
+        description: Customer CCI number
+        type: string
+        maxLength: 24
+        x-nullable: true
+      bank_name:
+        title: Bank name
+        description: Customer bank name
+        type: string
+        maxLength: 32
+        x-nullable: true
+      type:
+        title: Type
+        description: Customer type
+        type: string
+        enum:
+        - BUYER
+        - SELLER
+      user:
+        title: User
+        description: Associated user
+        type: integer

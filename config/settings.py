@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
 EXTERNAL_APPS = [
     "rest_framework",
+    "drf_yasg",
 ]
 
 CUSTOM_APPS = [
@@ -90,6 +91,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "docs.settings.api_info",
+    "DEFAULT_GENERATOR": "docs.settings.APISchemeGenerator",
+    "DEFAULT_API_URL": "http://localhost:8000",
+}
 
 
 # Database

@@ -33,6 +33,7 @@ django==4.2.11
     #   django-cors-headers
     #   django-storages
     #   djangorestframework
+    #   drf-yasg
     #   sentry-sdk
 django-cors-headers==4.3.1
     # via -r requirements/base.in
@@ -41,9 +42,15 @@ django-environ==0.11.2
 django-storages==1.14.2
     # via -r requirements/base.in
 djangorestframework==3.15.1
+    # via
+    #   -r requirements/base.in
+    #   drf-yasg
+drf-yasg==1.21.7
     # via -r requirements/base.in
 importlib-metadata==7.1.0
     # via build
+inflection==0.5.1
+    # via drf-yasg
 jmespath==1.0.1
     # via
     #   boto3
@@ -54,6 +61,7 @@ packaging==24.0
     # via
     #   black
     #   build
+    #   drf-yasg
 pathspec==0.12.1
     # via black
 pip-tools==7.4.1
@@ -68,6 +76,10 @@ pyproject-hooks==1.0.0
     #   pip-tools
 python-dateutil==2.9.0.post0
     # via botocore
+pytz==2024.1
+    # via drf-yasg
+pyyaml==6.0.1
+    # via drf-yasg
 s3transfer==0.10.1
     # via boto3
 sentry-sdk[django]==1.45.0
@@ -87,6 +99,8 @@ typing-extensions==4.11.0
     #   asgiref
     #   black
     #   dj-database-url
+uritemplate==4.1.1
+    # via drf-yasg
 urllib3==1.26.18
     # via
     #   -r requirements/base.in

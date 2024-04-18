@@ -20,3 +20,6 @@ createsuperuser:
 	docker compose exec web python manage.py createsuperuser
 lint:
 	black .
+.PHONY: docs
+docs:
+	python manage.py generate_swagger -f yaml docs/api.yaml

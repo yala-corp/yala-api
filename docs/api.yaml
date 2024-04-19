@@ -144,6 +144,24 @@ paths:
       tags:
       - auth
     parameters: []
+  /bids:
+    post:
+      operationId: bids_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/BidCreate'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Bid'
+      tags:
+      - bids
+    parameters: []
   /customers:
     get:
       operationId: customers_list
@@ -409,6 +427,55 @@ definitions:
         type: string
         maxLength: 128
         minLength: 1
+  BidCreate:
+    required:
+    - amount
+    - auction
+    type: object
+    properties:
+      amount:
+        title: Amount
+        description: Bid amount
+        type: string
+        format: decimal
+      auction:
+        title: Auction
+        description: Auction bid
+        type: string
+        format: uuid
+  Bid:
+    required:
+    - amount
+    - date
+    - auction
+    - customer
+    type: object
+    properties:
+      id:
+        title: Id
+        description: Bid ID
+        type: string
+        format: uuid
+        readOnly: true
+      amount:
+        title: Amount
+        description: Bid amount
+        type: string
+        format: decimal
+      date:
+        title: Date
+        description: Bid date
+        type: string
+        format: date-time
+      auction:
+        title: Auction
+        description: Auction bid
+        type: string
+        format: uuid
+      customer:
+        title: Customer
+        description: Customer bid
+        type: integer
   Customer:
     required:
     - document_number

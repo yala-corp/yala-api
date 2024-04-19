@@ -76,3 +76,19 @@ class Auction(models.Model):
         related_name="auctions_sold",
         help_text="Auction seller",
     )
+
+
+class Bid(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, help_text="Bid ID"
+    )
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, help_text="Bid amount"
+    )
+    date = models.DateTimeField(help_text="Bid date")
+    auction = models.ForeignKey(
+        Auction, on_delete=models.CASCADE, help_text="Auction bid"
+    )
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, help_text="Customer bid"
+    )

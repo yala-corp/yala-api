@@ -17,6 +17,97 @@ securityDefinitions:
 security:
 - Basic: []
 paths:
+  /auctions:
+    get:
+      operationId: auctions_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    post:
+      operationId: auctions_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/AuctionCreate'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    parameters: []
+  /auctions/{id}:
+    get:
+      operationId: auctions_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    put:
+      operationId: auctions_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auction'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    patch:
+      operationId: auctions_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auction'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    delete:
+      operationId: auctions_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - auctions
+    parameters:
+    - name: id
+      in: path
+      description: Auction ID
+      required: true
+      type: string
+      format: uuid
   /auth/login:
     post:
       operationId: auth_login
@@ -144,6 +235,103 @@ paths:
       required: true
       type: integer
 definitions:
+  Auction:
+    required:
+    - title
+    - description
+    - starting_price
+    - price
+    - start_date
+    - end_date
+    - seller
+    type: object
+    properties:
+      id:
+        title: Id
+        description: Auction ID
+        type: string
+        format: uuid
+        readOnly: true
+      title:
+        title: Title
+        description: Product name
+        type: string
+        maxLength: 100
+        minLength: 1
+      description:
+        title: Description
+        description: Product description
+        type: string
+        minLength: 1
+      starting_price:
+        title: Starting price
+        description: Starting price
+        type: string
+        format: decimal
+      price:
+        title: Price
+        description: Final price
+        type: string
+        format: decimal
+      start_date:
+        title: Start date
+        description: Auction start date
+        type: string
+        format: date-time
+      end_date:
+        title: End date
+        description: Auction end date
+        type: string
+        format: date-time
+      winner:
+        title: Winner
+        description: Auction winner
+        type: integer
+      seller:
+        title: Seller
+        description: Auction seller
+        type: integer
+  AuctionCreate:
+    required:
+    - title
+    - description
+    - starting_price
+    - price
+    - start_date
+    - end_date
+    type: object
+    properties:
+      title:
+        title: Title
+        description: Product name
+        type: string
+        maxLength: 100
+        minLength: 1
+      description:
+        title: Description
+        description: Product description
+        type: string
+        minLength: 1
+      starting_price:
+        title: Starting price
+        description: Starting price
+        type: string
+        format: decimal
+      price:
+        title: Price
+        description: Final price
+        type: string
+        format: decimal
+      start_date:
+        title: Start date
+        description: Auction start date
+        type: string
+        format: date-time
+      end_date:
+        title: End date
+        description: Auction end date
+        type: string
+        format: date-time
   UserLogin:
     required:
     - email

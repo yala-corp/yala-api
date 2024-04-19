@@ -10,6 +10,7 @@ api_info = openapi.Info(
     description="API for the project.",
 )
 
+
 class APISchemeGenerator(OpenAPISchemaGenerator):
     def determine_path_prefix(self, paths):
         return DEFAULT_BASE_PATH

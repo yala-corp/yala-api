@@ -85,7 +85,7 @@ class Bid(models.Model):
     amount = models.DecimalField(
         max_digits=10, decimal_places=2, help_text="Bid amount"
     )
-    date = models.DateTimeField(help_text="Bid date")
+    date = models.DateTimeField(help_text="Bid date", auto_now_add=True)
     auction = models.ForeignKey(
         Auction, on_delete=models.CASCADE, help_text="Auction bid"
     )

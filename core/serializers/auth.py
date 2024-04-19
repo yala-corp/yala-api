@@ -17,6 +17,25 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
 
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(help_text="Email of the user")
+    password = serializers.CharField(help_text="Password of the user")
+
+    def validate(self, data):
+        email = data.get("email")
+        password = data.get("password")
+
+        if email and password:
+            user = User.objects.filter(email=email).first()
+
+            if user:
+                if user.check_password(password):
+                    return {"user": user}
+            raise serializers.ValidationError("Invalid email or password")
+        else:
+            raise serializers.ValidationError("Email and password are required")
+
+
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -53,11 +72,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True, help_text="User object")
-    token = serializers.CharField(help_text="Token string")
 
     class Meta:
         model = Token
-        fields = ["user", "token"]
+        fields = ["user", "key"]
 
 
 class CustomerSerializer(serializers.ModelSerializer):

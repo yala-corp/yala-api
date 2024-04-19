@@ -10,17 +10,31 @@ from drf_yasg.utils import swagger_auto_schema
 from core.serializers.auth import (
     CustomerSerializer,
     UserCreateSerializer,
+    UserLoginSerializer,
     TokenSerializer,
 )
 from core.models import Customer
 
 
-class AuthViewSet(viewsets.ViewSet):
+class AuthViewSet(viewsets.GenericViewSet):
     serializer_class = AuthTokenSerializer
 
-    @action(methods=["POST"], detail=False)
+    @swagger_auto_schema(
+        methods=["POST"],
+        request_body=UserLoginSerializer,
+        responses={status.HTTP_200_OK: TokenSerializer},
+    )
+    @action(methods=["POST"], detail=False, serializer_class=UserLoginSerializer)
     def login(self, request, *args, **kwargs):
-        pass
+        serializer = self.get_serializer(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data["user"]
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response(TokenSerializer(token).data)
 
     @swagger_auto_schema(
         methods=["POST"],
@@ -29,7 +43,7 @@ class AuthViewSet(viewsets.ViewSet):
     )
     @action(methods=["POST"], detail=False, serializer_class=UserCreateSerializer)
     def register(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = serializer.save()

@@ -446,7 +446,6 @@ definitions:
   Bid:
     required:
     - amount
-    - date
     - auction
     - customer
     type: object
@@ -467,6 +466,7 @@ definitions:
         description: Bid date
         type: string
         format: date-time
+        readOnly: true
       auction:
         title: Auction
         description: Auction bid

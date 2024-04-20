@@ -60,47 +60,6 @@ paths:
             $ref: '#/definitions/Auction'
       tags:
       - auctions
-    put:
-      operationId: auctions_update
-      description: ''
-      parameters:
-      - name: data
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/Auction'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Auction'
-      tags:
-      - auctions
-    patch:
-      operationId: auctions_partial_update
-      description: ''
-      parameters:
-      - name: data
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/Auction'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/Auction'
-      tags:
-      - auctions
-    delete:
-      operationId: auctions_delete
-      description: ''
-      parameters: []
-      responses:
-        '204':
-          description: ''
-      tags:
-      - auctions
     parameters:
     - name: id
       in: path

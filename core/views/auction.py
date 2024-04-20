@@ -1,6 +1,7 @@
 from rest_framework import status
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
@@ -8,9 +9,15 @@ from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
 from core.models import Auction, Customer
 
 
-class AuctionViewSet(viewsets.ModelViewSet):
+class AuctionViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @swagger_auto_schema(
         request_body=AuctionCreateSerializer,

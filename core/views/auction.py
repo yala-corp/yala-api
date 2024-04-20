@@ -9,7 +9,12 @@ from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
 from core.models import Auction, Customer
 
 
-class AuctionViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class AuctionViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

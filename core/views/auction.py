@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework import viewsets, mixins
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from drf_yasg.utils import swagger_auto_schema
 
@@ -17,6 +18,7 @@ class AuctionViewSet(
 ):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @swagger_auto_schema(

@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.bid import BidSerializer, BidCreateSerializer
@@ -12,6 +13,7 @@ from core.models import Bid, Customer
 class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Bid.objects.all()
     serializer_class = BidCreateSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

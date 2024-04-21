@@ -3,7 +3,6 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
-from core.models import Customer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -76,9 +75,3 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ["user", "key"]
-
-
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = "__all__"

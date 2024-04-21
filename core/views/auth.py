@@ -8,12 +8,10 @@ from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auth import (
-    CustomerSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     TokenSerializer,
 )
-from core.models import Customer
 
 
 class AuthViewSet(viewsets.GenericViewSet):
@@ -50,8 +48,3 @@ class AuthViewSet(viewsets.GenericViewSet):
         token, _ = Token.objects.get_or_create(user=user)
 
         return Response(TokenSerializer(token).data)
-
-
-class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer

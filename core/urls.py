@@ -1,6 +1,7 @@
 from rest_framework import routers
-from core.views.auth import CustomerViewSet, AuthViewSet
+from core.views.auth import AuthViewSet
 from core.views.auction import AuctionViewSet
+from core.views.customer import CustomerViewSet
 from core.views.bid import BidViewSet
 
 

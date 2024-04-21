@@ -27,9 +27,6 @@ class AuctionViewSet(
     )
     def create(self, request, *args, **kwargs):
         user = request.user
-        if not user.is_authenticated:
-            return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
-
         seller = Customer.objects.get(user=user)
         if seller.type != Customer.SELLER:
             return Response(
@@ -40,4 +37,5 @@ class AuctionViewSet(
         serializer = AuctionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(seller=seller)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)

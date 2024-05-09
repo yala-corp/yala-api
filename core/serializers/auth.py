@@ -53,6 +53,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User(
+            username=validated_data["email"],
             email=validated_data["email"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
@@ -61,7 +62,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         try:
             validate_password(validated_data["password"], user)
         except ValidationError as e:
-            raise serializers.ValidationError({"password": str(e)})
+            raise serializers.ValidationError(" ".join(e.messages))
 
         user.set_password(validated_data["password"])
         user.save()

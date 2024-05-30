@@ -28,3 +28,18 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
             "phone_number": {"required": True},
             "address": {"required": True},
         }
+
+
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = {
+            "document_type",
+            "document_number",
+            "birth_date",
+            "phone_number",
+            "address",
+            "bank_name",
+            "cci",
+            "type",
+        }

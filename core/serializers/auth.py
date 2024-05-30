@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 
+from core.models import Customer
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,6 +68,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         user.set_password(validated_data["password"])
         user.save()
+
+        _ = Customer.objects.create(user=user)
 
         return user
 

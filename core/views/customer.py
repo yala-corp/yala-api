@@ -7,11 +7,11 @@ from rest_framework.authentication import TokenAuthentication
 from drf_yasg.utils import swagger_auto_schema
 
 from core.models import Customer
-from core.serializers.customer import CustomerSerializer, CustomerCreateSerializer
+from core.serializers.customer import CustomerSerializer, CustomerCreateSerializer, CustomerUpdateSerializer
 
 
 class CustomerViewSet(
-    mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+    mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet
 ):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
@@ -29,3 +29,15 @@ class CustomerViewSet(
         serializer.save(user=user)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @swagger_auto_schema(
+        request_body=CustomerUpdateSerializer,
+        responses={status.HTTP_200_OK: CustomerSerializer},
+    )
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = CustomerUpdateSerializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)

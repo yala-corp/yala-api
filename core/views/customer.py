@@ -51,9 +51,7 @@ class CustomerViewSet(
 
         return Response(serializer.data)
 
-    @swagger_auto_schema(
-        responses={status.HTTP_200_OK: CustomerSerializer}
-    )
+    @swagger_auto_schema(responses={status.HTTP_200_OK: CustomerSerializer})
     @action(methods=["GET"], detail=False)
     def user(self, request, *args, **kwargs):
         user = request.user

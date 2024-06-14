@@ -25,7 +25,7 @@ from core.models import Customer
 
 
 def generate_verification_code():
-        return str(randint(100000, 999999))
+    return str(randint(100000, 999999))
 
 
 class AuthViewSet(viewsets.GenericViewSet):

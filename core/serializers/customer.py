@@ -5,7 +5,22 @@ from core.models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = "__all__"
+        fields = [
+            "id",
+            "document_number",
+            "birth_date",
+            "bank_name",
+            "cci",
+            "address",
+            "phone_number",
+        ]
+        extra_kwargs = {
+            "document_number": {"required": True},
+            "birth_date": {"required": True},
+            "bank_name": {"required": True},
+            "cci": {"required": True},
+            "address": {"required": True},
+        }
 
 
 class CustomerCreateSerializer(serializers.ModelSerializer):
@@ -33,7 +48,7 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
 class CustomerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = {
+        fields = [
             "document_type",
             "document_number",
             "birth_date",
@@ -42,4 +57,19 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
             "bank_name",
             "cci",
             "type",
-        }
+        ]
+
+
+class CustomerVerificationSerializer(serializers.Serializer):
+    EMAIL = "EMAIL"
+    PHONE = "PHONE"
+    VERIFICATION_NAME_CHOICES = [
+        (EMAIL, "Email"),
+        (PHONE, "Phone"),
+    ]
+    verification_code = serializers.CharField(
+        max_length=6, help_text="Verification code"
+    )
+    verification_name = serializers.ChoiceField(
+        choices=VERIFICATION_NAME_CHOICES, help_text="Verification name"
+    )

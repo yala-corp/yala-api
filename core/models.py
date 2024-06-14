@@ -21,6 +21,18 @@ class Customer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, help_text="Associated user"
     )
+    validated_email = models.BooleanField(
+        default=False, help_text="Customer email validation"
+    )
+    validated_phone = models.BooleanField(
+        default=False, help_text="Customer phone validation"
+    )
+    verification_code = models.CharField(
+        max_length=6, blank=True, null=True, help_text="Customer verification code"
+    )
+    verification_code_expiry = models.DateTimeField(
+        blank=True, null=True, help_text="Customer verification code expiry"
+    )
     document_type = models.CharField(
         max_length=9,
         choices=DOCUMENT_TYPE_CHOICES,

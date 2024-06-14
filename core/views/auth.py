@@ -1,3 +1,10 @@
+from random import randint
+
+from datetime import timedelta
+from django.utils import timezone
+
+from django.core.mail import send_mail
+
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,6 +19,13 @@ from core.serializers.auth import (
     UserLoginSerializer,
     TokenSerializer,
 )
+
+from core.exceptions import EmailServiceError
+from core.models import Customer
+
+
+def generate_verification_code():
+        return str(randint(100000, 999999))
 
 
 class AuthViewSet(viewsets.GenericViewSet):
@@ -44,7 +58,27 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user = serializer.save()
+        try:
+            user = serializer.save()
+            verification_code = generate_verification_code()
+
+            send_mail(
+                subject=f"Bienvenido a Yala",
+                message=f"Gracias por registrarte en Yala, tu código de verificación es {verification_code}",
+                from_email="settings.EMAIL_HOST_USER",
+                recipient_list=[serializer.validated_data["email"]],
+                fail_silently=False,
+            )
+
+            _ = Customer.objects.create(
+                user=user,
+                verification_code=verification_code,
+                verification_code_expiry=timezone.now() + timedelta(minutes=30),
+            )
+        except Exception as e:
+            print(e)
+            raise EmailServiceError({"detail": str(e)})
+
         token, _ = Token.objects.get_or_create(user=user)
 
         return Response(TokenSerializer(token).data)

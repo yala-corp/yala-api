@@ -11,7 +11,7 @@ start:
 stop:
 	docker compose down
 restart:
-	docker compose down && docker compose up -d
+	docker compose down && docker compose build && docker compose up -d
 migrate:
 	docker compose exec web python manage.py migrate
 makemigrations:
@@ -22,4 +22,5 @@ lint:
 	black .
 .PHONY: docs
 docs:
-	python manage.py generate_swagger -f yaml docs/api.yaml
+	-rm -rf docs/api.yaml
+	-python manage.py generate_swagger -f yaml docs/api.yaml

@@ -50,7 +50,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=data["email"]).exists():
             raise serializers.ValidationError("Email already exists")
         return data
-
+    # create User
     def create(self, validated_data):
         user = User(
             username=validated_data["email"],

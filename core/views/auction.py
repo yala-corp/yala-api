@@ -9,7 +9,6 @@ from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
 
 from core.models import Auction, Customer
 
-
 class AuctionViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
@@ -28,14 +27,12 @@ class AuctionViewSet(
     def create(self, request, *args, **kwargs):
         user = request.user
         seller = Customer.objects.get(user=user)
-        if seller.type != Customer.SELLER:
-            return Response(
-                {"error": "Only sellers can create auctions"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
+        winner = seller
+
 
         serializer = AuctionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(seller=seller)
+    
+        serializer.save(seller=seller, winner=winner)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -69,12 +69,17 @@ class AuthViewSet(viewsets.GenericViewSet):
                 recipient_list=[serializer.validated_data["email"]],
                 fail_silently=False,
             )
-
+            # create Customer object
             _ = Customer.objects.create(
                 user=user,
                 verification_code=verification_code,
                 verification_code_expiry=timezone.now() + timedelta(minutes=30),
             )
+            print("customer created", _)
+
+
+
+
         except Exception as e:
             print(e)
             raise EmailServiceError({"detail": str(e)})

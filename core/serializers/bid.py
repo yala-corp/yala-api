@@ -25,5 +25,4 @@ class BidCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Price must be higher than the current price"
             )
-        
         return data

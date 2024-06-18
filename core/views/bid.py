@@ -6,7 +6,6 @@ from rest_framework.authentication import TokenAuthentication
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.bid import BidSerializer, BidCreateSerializer
-
 from core.models import Bid, Customer, Auction
 
 
@@ -24,11 +23,8 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         responses={status.HTTP_201_CREATED: BidSerializer},
     )
     def create(self, request, *args, **kwargs):
-        customer = request.user.customer        # obtenemos el usuario logueado
-        print("customer", customer.id)
-        # validar que el usuario no sea el mismo que el que creo la subasta
+        customer = request.user.customer
         seller = Auction.objects.get(pk=request.data["auction"]).seller
-        print("seller", seller.id)
 
         if customer.id == seller.id:
             return Response(

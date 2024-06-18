@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 
 from drf_yasg.utils import swagger_auto_schema
 
-from core.models import Customer,Auction
+from core.models import Customer, Auction
 from core.serializers.customer import (
     CustomerSerializer,
     CustomerCreateSerializer,
@@ -55,7 +55,7 @@ class CustomerViewSet(
     @swagger_auto_schema(responses={status.HTTP_200_OK: CustomerSerializer})
     @action(methods=["GET"], detail=False)
     def user(self, request, *args, **kwargs):
-        user = request.user # obtenemos el usuario logueado
+        user = request.user  # obtenemos el usuario logueado
         customer = Customer.objects.get(user=user)
         return Response(CustomerSerializer(customer).data)
 
@@ -98,5 +98,4 @@ class CustomerViewSet(
             )
 
         customer.save()
-
         return Response(CustomerSerializer(customer).data)

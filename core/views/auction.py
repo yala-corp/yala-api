@@ -9,6 +9,7 @@ from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
 
 from core.models import Auction, Customer
 
+
 class AuctionViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
@@ -29,10 +30,9 @@ class AuctionViewSet(
         seller = Customer.objects.get(user=user)
         winner = seller
 
-
         serializer = AuctionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-    
+
         serializer.save(seller=seller, winner=winner)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

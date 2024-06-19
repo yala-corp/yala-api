@@ -76,6 +76,9 @@ class Auction(models.Model):
         related_name="auctions_sold",
         help_text="Auction seller",
     )
+    image = models.ImageField(
+        upload_to="auctions/", null=True, blank=True, help_text="Product image"
+    )
 
 
 class Bid(models.Model):

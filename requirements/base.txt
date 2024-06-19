@@ -47,6 +47,8 @@ jmespath==1.0.1
     #   botocore
 packaging==24.0
     # via drf-yasg
+pillow==10.3.0
+    # via -r requirements/base.in
 psycopg2-binary==2.9.9
     # via -r requirements/base.in
 python-dateutil==2.9.0.post0

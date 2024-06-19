@@ -45,6 +45,7 @@ class AuthViewSet(viewsets.GenericViewSet):
 
         user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
+
         return Response(TokenSerializer(token).data)
 
     @swagger_auto_schema(

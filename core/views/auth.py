@@ -56,9 +56,11 @@ class AuthViewSet(viewsets.GenericViewSet):
     def register(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         try:
             user = serializer.save()
             verification_code = generate_verification_code()
+
             send_mail(
                 subject=f"Bienvenido a Yala",
                 message=f"Gracias por registrarte en Yala, tu código de verificación es {verification_code}",
@@ -66,6 +68,7 @@ class AuthViewSet(viewsets.GenericViewSet):
                 recipient_list=[serializer.validated_data["email"]],
                 fail_silently=False,
             )
+
             _ = Customer.objects.create(
                 user=user,
                 verification_code=verification_code,
@@ -76,4 +79,5 @@ class AuthViewSet(viewsets.GenericViewSet):
             raise EmailServiceError({"detail": str(e)})
 
         token, _ = Token.objects.get_or_create(user=user)
+
         return Response(TokenSerializer(token).data)

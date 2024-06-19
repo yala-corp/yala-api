@@ -4,12 +4,6 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    BUYER = "BUYER"
-    SELLER = "SELLER"
-    USER_TYPE_CHOICES = [
-        (BUYER, "Buyer"),
-        (SELLER, "Seller"),
-    ]
     DNI = "DNI"
     RUC = "RUC"
     PASSPORT = "PASSPORT"
@@ -52,12 +46,6 @@ class Customer(models.Model):
     )
     bank_name = models.CharField(
         max_length=32, blank=True, null=True, help_text="Customer bank name"
-    )
-    type = models.CharField(
-        max_length=6,
-        choices=USER_TYPE_CHOICES,
-        default=BUYER,
-        help_text="Customer type",
     )
 
 

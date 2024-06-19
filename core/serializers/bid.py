@@ -21,7 +21,7 @@ class BidCreateSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, data):
-        if data["price"] < data["auction"].price:
+        if data["amount"] < data["auction"].price:
             raise serializers.ValidationError(
                 "Price must be higher than the current price"
             )

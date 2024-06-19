@@ -6,8 +6,7 @@ from rest_framework.authentication import TokenAuthentication
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.bid import BidSerializer, BidCreateSerializer
-
-from core.models import Bid, Customer
+from core.models import Bid, Customer, Auction
 
 
 class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -25,19 +24,20 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     )
     def create(self, request, *args, **kwargs):
         customer = request.user.customer
+        seller = Auction.objects.get(pk=request.data["auction"]).seller
 
-        if customer.type != Customer.BUYER:
+        if customer.id == seller.id:
             return Response(
-                {"error": "Only buyers can create bids"},
-                status=status.HTTP_403_FORBIDDEN,
+                {"detail": "You can't bid on your own auction"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(customer=customer)
 
         auction = serializer.validated_data["auction"]
         auction.price = serializer.validated_data["amount"]
+        auction.winner = customer
         auction.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

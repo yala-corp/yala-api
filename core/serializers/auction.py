@@ -19,7 +19,7 @@ class AuctionCreateSerializer(serializers.ModelSerializer):
             "start_date",
             "end_date",
             "image",
-            "category"
+            "category",
         ]
         extra_kwargs = {
             "title": {"required": True},

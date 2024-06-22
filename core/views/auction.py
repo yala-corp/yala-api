@@ -39,14 +39,13 @@ class AuctionViewSet(
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
     @swagger_auto_schema(
         request_body=AuctionSerializer,
         responses={status.HTTP_200_OK: AuctionSerializer},
     )
     def partial_update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', True)
-        instance = self.get_object()        
+        partial = kwargs.pop("partial", True)
+        instance = self.get_object()
         user = request.user
         seller = instance.seller.user
         if user != seller:
@@ -55,5 +54,5 @@ class AuctionViewSet(
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        
+
         return Response(serializer.data, status=status.HTTP_200_OK)

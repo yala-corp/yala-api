@@ -79,7 +79,8 @@ class Auction(models.Model):
     image = models.ImageField(
         upload_to="auctions/", null=True, blank=True, help_text="Product image"
     )
-    categoy = models.CharField(max_length=50, help_text="Product category", blank=True)
+    category = models.CharField(max_length=50, help_text="Product category", blank=True)
+
 
 class Bid(models.Model):
     id = models.UUIDField(

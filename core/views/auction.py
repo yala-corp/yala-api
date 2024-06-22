@@ -3,6 +3,7 @@ from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.exceptions import PermissionDenied
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
@@ -14,6 +15,7 @@ class AuctionViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = Auction.objects.all()
@@ -36,3 +38,21 @@ class AuctionViewSet(
         serializer.save(seller=seller, winner=winner)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @swagger_auto_schema(
+        request_body=AuctionSerializer,
+        responses={status.HTTP_200_OK: AuctionSerializer},
+    )
+    def partial_update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", True)
+        instance = self.get_object()
+        user = request.user
+        seller = instance.seller.user
+        if user != seller:
+            raise PermissionDenied("Only the seller can update the auction.")
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

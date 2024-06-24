@@ -34,10 +34,8 @@ class CustomerCreateSerializer(serializers.ModelSerializer):
             "address",
             "bank_name",
             "cci",
-            "type",
         ]
         extra_kwargs = {
-            "type": {"required": True},
             "document_type": {"required": True},
             "document_number": {"required": True},
             "phone_number": {"required": True},
@@ -56,7 +54,6 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
             "address",
             "bank_name",
             "cci",
-            "type",
         ]
 
 

@@ -60,6 +60,38 @@ paths:
             $ref: '#/definitions/Auction'
       tags:
       - auctions
+    put:
+      operationId: auctions_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auction'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
+    patch:
+      operationId: auctions_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auction'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Auction'
+      tags:
+      - auctions
     parameters:
     - name: id
       in: path
@@ -269,6 +301,18 @@ definitions:
         description: Auction end date
         type: string
         format: date-time
+      image:
+        title: Image
+        description: Product image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      category:
+        title: Category
+        description: Product category
+        type: string
+        maxLength: 50
       winner:
         title: Winner
         description: Auction winner
@@ -285,6 +329,7 @@ definitions:
     - price
     - start_date
     - end_date
+    - category
     type: object
     properties:
       title:
@@ -318,6 +363,18 @@ definitions:
         description: Auction end date
         type: string
         format: date-time
+      image:
+        title: Image
+        description: Product image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      category:
+        title: Category
+        description: Product category
+        type: string
+        maxLength: 50
   UserLogin:
     required:
     - email
@@ -450,7 +507,6 @@ definitions:
     - document_number
     - phone_number
     - address
-    - type
     type: object
     properties:
       document_type:
@@ -497,13 +553,6 @@ definitions:
         type: string
         maxLength: 24
         x-nullable: true
-      type:
-        title: Type
-        description: Customer type
-        type: string
-        enum:
-        - BUYER
-        - SELLER
   Customer:
     required:
     - document_number
@@ -624,10 +673,3 @@ definitions:
         type: string
         maxLength: 24
         x-nullable: true
-      type:
-        title: Type
-        description: Customer type
-        type: string
-        enum:
-        - BUYER
-        - SELLER

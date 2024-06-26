@@ -107,6 +107,6 @@ class CustomerViewSet(
     @action(methods=["GET"], detail=True)
     def auctions(self, request, *args, **kwargs):
         customer = self.get_object()
-        auctions = customer.auctions.all()
+        auctions = customer.auctions_sold.all()
         serializer = AuctionSerializer(auctions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

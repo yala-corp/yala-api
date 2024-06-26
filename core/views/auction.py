@@ -57,21 +57,3 @@ class AuctionViewSet(
         self.perform_update(serializer)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-    @swagger_auto_schema(
-        responses={status.HTTP_200_OK: AuctionSerializer(many=True)},
-    )
-    @action(detail=False, url_path='seller/(?P<id_seller>[^/.]+)')
-    def list_by_seller(self, request, id_seller=None):
-        try:
-            seller = Customer.objects.get(id=id_seller)
-        except Customer.DoesNotExist:
-            return Response(
-                {"error": "Seller not found."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        
-        queryset = self.queryset.filter(seller_id=seller)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)

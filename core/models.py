@@ -76,11 +76,15 @@ class Auction(models.Model):
         related_name="auctions_sold",
         help_text="Auction seller",
     )
-    image = models.ImageField(
-        upload_to="auctions/", null=True, blank=True, help_text="Product image"
-    )
+    
     category = models.CharField(max_length=50, help_text="Product category", blank=True)
+    estado = models.IntegerField(default=1,help_text="Estado del objeto", choices = [(i,str(i)) for i in range(1,6)])
 
+
+class AuctionImage(models.Model):
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, help_text="Auction image")
+    image = models.ImageField(upload_to="auctions/", help_text="Auction image")
+    uploaded_at = models.DateTimeField(auto_now_add=True, help_text="Image upload date")
 
 class Bid(models.Model):
     id = models.UUIDField(

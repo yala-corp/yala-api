@@ -7,8 +7,8 @@ from rest_framework.exceptions import PermissionDenied
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
-
-from core.models import Auction, Customer
+from core.serializers.auctionimage import AuctionImageSerializer
+from core.models import Auction, Customer, AuctionImage
 
 
 class AuctionViewSet(
@@ -35,9 +35,16 @@ class AuctionViewSet(
         serializer = AuctionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        serializer.save(seller=seller, winner=winner)
+        images_data = serializer.validated_data.pop("images")
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        auction = serializer.save(seller=seller, winner=winner)
+        
+        for image_data in images_data:
+            AuctionImage.objects.create(auction=auction, image=image_data)
+        
+        Response_serializer = AuctionSerializer(auction)
+
+        return Response(Response_serializer.data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
         request_body=AuctionSerializer,

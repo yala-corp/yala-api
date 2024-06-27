@@ -270,6 +270,22 @@ definitions:
         type: string
         format: uuid
         readOnly: true
+      first_name:
+        title: First name
+        type: string
+        readOnly: true
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        readOnly: true
+        minLength: 1
+      email:
+        title: Email
+        type: string
+        format: email
+        readOnly: true
+        minLength: 1
       title:
         title: Title
         description: Product name

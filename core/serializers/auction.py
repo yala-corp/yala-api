@@ -2,7 +2,11 @@ from rest_framework import serializers
 from core.models import Auction
 
 
+
 class AuctionSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source="seller.user.first_name", read_only=True)
+    last_name = serializers.CharField(source="seller.user.last_name", read_only=True)
+    email = serializers.EmailField(source="seller.user.email", read_only=True)
     class Meta:
         model = Auction
         fields = "__all__"

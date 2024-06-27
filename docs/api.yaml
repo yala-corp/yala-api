@@ -252,6 +252,26 @@ paths:
       description: A unique integer value identifying this customer.
       required: true
       type: integer
+  /customers/{id}/auctions:
+    get:
+      operationId: customers_auctions
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Auction'
+      tags:
+      - customers
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this customer.
+      required: true
+      type: integer
 definitions:
   Auction:
     required:

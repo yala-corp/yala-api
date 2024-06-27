@@ -14,6 +14,7 @@ from core.serializers.customer import (
     CustomerUpdateSerializer,
     CustomerVerificationSerializer,
 )
+from core.serializers.auction import AuctionSerializer
 
 
 class CustomerViewSet(
@@ -99,3 +100,13 @@ class CustomerViewSet(
         customer.save()
 
         return Response(CustomerSerializer(customer).data)
+
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: AuctionSerializer(many=True)},
+    )
+    @action(methods=["GET"], detail=True)
+    def auctions(self, request, *args, **kwargs):
+        customer = self.get_object()
+        auctions = customer.auctions_sold.all()
+        serializer = AuctionSerializer(auctions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

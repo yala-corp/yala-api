@@ -1,14 +1,24 @@
 from rest_framework import serializers
-from core.models import Auction
+from core.models import Auction, AuctionImage
+
+
+class AuctionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuctionImage
+        fields = ["image", "uploaded_at"]
 
 
 class AuctionSerializer(serializers.ModelSerializer):
+    images = AuctionImageSerializer(many=True)
+
     class Meta:
         model = Auction
         fields = "__all__"
 
 
 class AuctionCreateSerializer(serializers.ModelSerializer):
+    images = serializers.ListField(child=serializers.ImageField(), write_only=True)
+
     class Meta:
         model = Auction
         fields = [
@@ -18,8 +28,9 @@ class AuctionCreateSerializer(serializers.ModelSerializer):
             "price",
             "start_date",
             "end_date",
-            "image",
             "category",
+            "state",
+            "images",
         ]
         extra_kwargs = {
             "title": {"required": True},
@@ -30,4 +41,6 @@ class AuctionCreateSerializer(serializers.ModelSerializer):
             "end_date": {"required": True},
             "image": {"required": True},
             "category": {"required": True},
+            "state": {"required": True},
+            "images": {"required": True},
         }

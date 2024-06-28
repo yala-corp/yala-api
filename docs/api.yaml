@@ -290,7 +290,6 @@ definitions:
         readOnly: true
   Auction:
     required:
-    - images
     - title
     - description
     - starting_price
@@ -326,6 +325,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AuctionImage'
+        readOnly: true
       title:
         title: Title
         description: Product name

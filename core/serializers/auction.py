@@ -1,6 +1,11 @@
 from rest_framework import serializers
-from core.models import Auction
-from core.serializers.auction_image import AuctionImageSerializer
+from core.models import Auction, AuctionImage
+
+
+class AuctionImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuctionImage
+        fields = ["image", "uploaded_at"]
 
 
 class AuctionSerializer(serializers.ModelSerializer):

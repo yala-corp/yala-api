@@ -252,9 +252,45 @@ paths:
       description: A unique integer value identifying this customer.
       required: true
       type: integer
+  /customers/{id}/auctions:
+    get:
+      operationId: customers_auctions
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Auction'
+      tags:
+      - customers
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this customer.
+      required: true
+      type: integer
 definitions:
+  AuctionImage:
+    type: object
+    properties:
+      image:
+        title: Image
+        description: Auction image
+        type: string
+        readOnly: true
+        format: uri
+      uploaded_at:
+        title: Uploaded at
+        description: Image upload date
+        type: string
+        format: date-time
+        readOnly: true
   Auction:
     required:
+    - images
     - title
     - description
     - starting_price
@@ -286,6 +322,10 @@ definitions:
         format: email
         readOnly: true
         minLength: 1
+      images:
+        type: array
+        items:
+          $ref: '#/definitions/AuctionImage'
       title:
         title: Title
         description: Product name
@@ -317,18 +357,21 @@ definitions:
         description: Auction end date
         type: string
         format: date-time
-      image:
-        title: Image
-        description: Product image
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
       category:
         title: Category
-        description: Product category
+        description: Auction category
         type: string
         maxLength: 50
+      state:
+        title: State
+        description: Auction State
+        type: integer
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
       winner:
         title: Winner
         description: Auction winner
@@ -346,6 +389,8 @@ definitions:
     - start_date
     - end_date
     - category
+    - state
+    - images
     type: object
     properties:
       title:
@@ -379,18 +424,27 @@ definitions:
         description: Auction end date
         type: string
         format: date-time
-      image:
-        title: Image
-        description: Product image
-        type: string
-        readOnly: true
-        x-nullable: true
-        format: uri
       category:
         title: Category
-        description: Product category
+        description: Auction category
         type: string
         maxLength: 50
+      state:
+        title: State
+        description: Auction State
+        type: integer
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      images:
+        type: array
+        items:
+          type: string
+          readOnly: true
+          format: uri
   UserLogin:
     required:
     - email

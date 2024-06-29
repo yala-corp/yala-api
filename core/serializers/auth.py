@@ -69,6 +69,29 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         return user
 
+class UserGoogleSerializer(serializers.Serializer):
+    name = serializers.CharField(help_text="Name of the user")
+    email = serializers.EmailField(help_text="Email of the user")
+
+    def validate(self, data):
+        email = data.get("email")
+
+        if not email:
+            raise serializers.ValidationError("Email is required")
+        
+        return data
+    
+    def create_or_get_user(self, validated_data):
+        user = User.objects.filter(email=validated_data["email"]).first()
+        if user:
+            return user, False
+        user = User(
+            username=validated_data["email"],
+            email=validated_data["email"],
+            first_name=validated_data["name"],
+        )
+        return user, True        
+
 
 class TokenSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True, help_text="User object")

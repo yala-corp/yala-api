@@ -39,7 +39,6 @@ class AuctionCreateSerializer(serializers.ModelSerializer):
             "price": {"required": True},
             "start_date": {"required": True},
             "end_date": {"required": True},
-            "image": {"required": True},
             "category": {"required": True},
             "state": {"required": True},
             "images": {"required": True},

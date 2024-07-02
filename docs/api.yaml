@@ -171,6 +171,21 @@ paths:
       tags:
       - customers
     parameters: []
+  /customers/auctions:
+    get:
+      operationId: customers_auctions
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Auction'
+      tags:
+      - customers
+    parameters: []
   /customers/user:
     get:
       operationId: customers_user
@@ -252,26 +267,6 @@ paths:
       description: A unique integer value identifying this customer.
       required: true
       type: integer
-  /customers/{id}/auctions:
-    get:
-      operationId: customers_auctions
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Auction'
-      tags:
-      - customers
-    parameters:
-    - name: id
-      in: path
-      description: A unique integer value identifying this customer.
-      required: true
-      type: integer
 definitions:
   AuctionImage:
     type: object
@@ -290,7 +285,6 @@ definitions:
         readOnly: true
   Auction:
     required:
-    - images
     - title
     - description
     - starting_price
@@ -306,10 +300,27 @@ definitions:
         type: string
         format: uuid
         readOnly: true
+      first_name:
+        title: First name
+        type: string
+        readOnly: true
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        readOnly: true
+        minLength: 1
+      email:
+        title: Email
+        type: string
+        format: email
+        readOnly: true
+        minLength: 1
       images:
         type: array
         items:
           $ref: '#/definitions/AuctionImage'
+        readOnly: true
       title:
         title: Title
         description: Product name

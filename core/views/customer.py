@@ -104,9 +104,9 @@ class CustomerViewSet(
     @swagger_auto_schema(
         responses={status.HTTP_200_OK: AuctionSerializer(many=True)},
     )
-    @action(methods=["GET"], detail=True)
+    @action(methods=["GET"], detail=False)
     def auctions(self, request, *args, **kwargs):
-        customer = self.get_object()
+        customer = request.user.customer
         auctions = customer.auctions_sold.all()
         serializer = AuctionSerializer(auctions, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

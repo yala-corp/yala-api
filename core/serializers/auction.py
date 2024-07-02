@@ -12,7 +12,9 @@ class AuctionSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="seller.user.first_name", read_only=True)
     last_name = serializers.CharField(source="seller.user.last_name", read_only=True)
     email = serializers.EmailField(source="seller.user.email", read_only=True)
-    images = AuctionImageSerializer(many=True, read_only=True, source="auctionimage_set")
+    images = AuctionImageSerializer(
+        many=True, read_only=True, source="auctionimage_set"
+    )
 
     class Meta:
         model = Auction

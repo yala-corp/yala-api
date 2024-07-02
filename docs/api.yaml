@@ -171,6 +171,21 @@ paths:
       tags:
       - customers
     parameters: []
+  /customers/auctions:
+    get:
+      operationId: customers_auctions
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Auction'
+      tags:
+      - customers
+    parameters: []
   /customers/user:
     get:
       operationId: customers_user
@@ -244,26 +259,6 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/Customer'
-      tags:
-      - customers
-    parameters:
-    - name: id
-      in: path
-      description: A unique integer value identifying this customer.
-      required: true
-      type: integer
-  /customers/{id}/auctions:
-    get:
-      operationId: customers_auctions
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Auction'
       tags:
       - customers
     parameters:

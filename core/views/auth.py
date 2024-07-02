@@ -101,7 +101,7 @@ class AuthViewSet(viewsets.GenericViewSet):
             except Exception as e:
                 print(e)
                 raise EmailServiceError({"detail": str(e)})
-            
+
         token, _ = Token.objects.get_or_create(user=user)
 
         return Response(TokenSerializer(token).data)

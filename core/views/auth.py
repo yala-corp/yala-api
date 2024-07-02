@@ -16,6 +16,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auth import (
     UserCreateSerializer,
+    UserGoogleSerializer,
     UserLoginSerializer,
     TokenSerializer,
 )
@@ -78,6 +79,28 @@ class AuthViewSet(viewsets.GenericViewSet):
         except Exception as e:
             print(e)
             raise EmailServiceError({"detail": str(e)})
+
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response(TokenSerializer(token).data)
+
+    @swagger_auto_schema(
+        methods=["POST"],
+        request_body=UserGoogleSerializer,
+        responses={status.HTTP_200_OK: TokenSerializer},
+    )
+    @action(methods=["POST"], detail=False, serializer_class=UserGoogleSerializer)
+    def google(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, created = serializer.create_or_get_user(serializer.validated_data)
+
+        if created:
+            try:
+                _ = Customer.objects.create(user=user)
+            except Exception as e:
+                print(e)
+                raise EmailServiceError({"detail": str(e)})
 
         token, _ = Token.objects.get_or_create(user=user)
 

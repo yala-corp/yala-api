@@ -99,6 +99,24 @@ paths:
       required: true
       type: string
       format: uuid
+  /auth/google:
+    post:
+      operationId: auth_google
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UserGoogle'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Token'
+      tags:
+      - auth
+    parameters: []
   /auth/login:
     post:
       operationId: auth_login
@@ -440,22 +458,22 @@ definitions:
           type: string
           readOnly: true
           format: uri
-  UserLogin:
+  UserGoogle:
     required:
+    - name
     - email
-    - password
     type: object
     properties:
+      name:
+        title: Name
+        description: Name of the user
+        type: string
+        minLength: 1
       email:
         title: Email
         description: Email of the user
         type: string
         format: email
-        minLength: 1
-      password:
-        title: Password
-        description: Password of the user
-        type: string
         minLength: 1
   User:
     description: User object
@@ -490,6 +508,23 @@ definitions:
         title: Key
         type: string
         maxLength: 40
+        minLength: 1
+  UserLogin:
+    required:
+    - email
+    - password
+    type: object
+    properties:
+      email:
+        title: Email
+        description: Email of the user
+        type: string
+        format: email
+        minLength: 1
+      password:
+        title: Password
+        description: Password of the user
+        type: string
         minLength: 1
   UserCreate:
     required:

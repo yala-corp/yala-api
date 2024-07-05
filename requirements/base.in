@@ -10,3 +10,4 @@ Pillow
 dj_database_url
 sentry-sdk[django]
 django-cors-headers
+whitenoise

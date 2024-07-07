@@ -24,6 +24,7 @@ from core.serializers.auth import (
 from core.exceptions import EmailServiceError
 from core.models import Customer
 
+from config.settings import EMAIL_HOST_USER
 
 def generate_verification_code():
     return str(randint(100000, 999999))
@@ -66,7 +67,7 @@ class AuthViewSet(viewsets.GenericViewSet):
             send_mail(
                 subject=f"Bienvenido a Yala",
                 message=f"Gracias por registrarte en Yala, tu código de verificación es {verification_code}",
-                from_email="settings.EMAIL_HOST_USER",
+                from_email=EMAIL_HOST_USER,
                 recipient_list=[serializer.validated_data["email"]],
                 fail_silently=False,
             )

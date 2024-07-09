@@ -8,3 +8,4 @@ class StaticStorage(S3Boto3Storage):
 class MediaStorage(S3Boto3Storage):
     location = prod.MEDIAFILES_LOCATION
     default_acl = prod.AWS_DEFAULT_ACL
+    custom_domain = False

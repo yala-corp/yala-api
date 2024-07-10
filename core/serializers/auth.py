@@ -91,6 +91,7 @@ class UserGoogleSerializer(serializers.Serializer):
             email=validated_data["email"],
             first_name=validated_data["name"],
         )
+        user.save()
         return user, True
 
 

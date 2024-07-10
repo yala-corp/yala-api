@@ -36,7 +36,7 @@ class AuctionViewSet(
 
         images = serializer.validated_data.pop("images")
 
-        auction = serializer.save(seller=seller, winner=winner)
+        auction = serializer.save(seller=seller)
 
         for image in images:
             AuctionImage.objects.create(auction=auction, image=image)

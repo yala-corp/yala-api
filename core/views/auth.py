@@ -26,6 +26,7 @@ from core.models import Customer
 
 from config.settings import EMAIL_HOST_USER
 
+
 def generate_verification_code():
     return str(randint(100000, 999999))
 

@@ -33,11 +33,11 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             )
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(customer=customer)
+        bid = serializer.save(customer=customer)
 
         auction = serializer.validated_data["auction"]
         auction.price = serializer.validated_data["amount"]
         auction.winner = customer
         auction.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(BidSerializer(bid).data, status=status.HTTP_201_CREATED)

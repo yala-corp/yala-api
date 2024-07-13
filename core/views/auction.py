@@ -4,10 +4,13 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.decorators import action
+
 from drf_yasg.utils import swagger_auto_schema
 
 from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
-from core.models import Auction, Customer, AuctionImage
+from core.serializers.bid import AuctionBidSerializer
+from core.models import Auction, Customer, AuctionImage, Bid
 
 
 class AuctionViewSet(
@@ -61,4 +64,14 @@ class AuctionViewSet(
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: AuctionBidSerializer(many=True)}
+    )
+    @action(methods=["GET"], detail=True)
+    def bids(self, request, *args, **kwargs):
+        auction = self.get_object()
+        bids = Bid.objects.filter(auction=auction)
+        serializer = AuctionBidSerializer(bids, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

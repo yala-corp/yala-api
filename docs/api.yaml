@@ -99,6 +99,27 @@ paths:
       required: true
       type: string
       format: uuid
+  /auctions/{id}/bids:
+    get:
+      operationId: auctions_bids
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AuctionBid'
+      tags:
+      - auctions
+    parameters:
+    - name: id
+      in: path
+      description: Auction ID
+      required: true
+      type: string
+      format: uuid
   /auth/google:
     post:
       operationId: auth_google
@@ -458,6 +479,27 @@ definitions:
           type: string
           readOnly: true
           format: uri
+  AuctionBid:
+    required:
+    - amount
+    - date
+    type: object
+    properties:
+      amount:
+        title: Amount
+        description: Bid amount
+        type: string
+        format: decimal
+      date:
+        title: Date
+        description: Bid date
+        type: string
+        format: date-time
+      name:
+        title: Name
+        type: string
+        readOnly: true
+        minLength: 1
   UserGoogle:
     required:
     - name

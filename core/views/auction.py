@@ -72,6 +72,6 @@ class AuctionViewSet(
     @action(methods=["GET"], detail=True)
     def bids(self, request, *args, **kwargs):
         auction = self.get_object()
-        bids = Bid.objects.filter(auction=auction)
+        bids = Bid.objects.filter(auction=auction).order_by("-date")
         serializer = AuctionBidSerializer(bids, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

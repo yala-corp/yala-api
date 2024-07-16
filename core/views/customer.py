@@ -60,7 +60,7 @@ class CustomerViewSet(
                 verification_code = generate_verification_code()
                 send_phone_verification(
                     phone_number=customer.phone_number,
-                    verification_code=verification_code
+                    verification_code=verification_code,
                 )
                 customer.verification_code = verification_code
                 customer.verification_code_expiry = timezone.now() + timedelta(

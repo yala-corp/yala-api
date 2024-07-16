@@ -19,9 +19,7 @@ def send_phone_verification(phone_number, verification_code):
         {
             "message": PHONE_VERIFICATION_CODE_MESSAGE.format(code=verification_code),
             "tpoa": "Yalatienes",
-            "recipient": [
-                {"msisdn": f"51{phone_number}"}
-            ],
+            "recipient": [{"msisdn": f"51{phone_number}"}],
         }
     )
 

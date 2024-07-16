@@ -1,3 +1,6 @@
+from datetime import timedelta
+from django.utils import timezone
+
 from rest_framework import status
 from rest_framework import viewsets, mixins
 from rest_framework.response import Response
@@ -6,6 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
 from drf_yasg.utils import swagger_auto_schema
+from core.utils import send_phone_verification, generate_verification_code
+from core.exceptions import EmailServiceError
 
 from core.models import Customer
 from core.serializers.customer import (
@@ -48,7 +53,22 @@ class CustomerViewSet(
         instance = self.get_object()
         serializer = CustomerUpdateSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        customer: Customer = serializer.save()
+
+        if not customer.validated_phone and customer.phone_number:
+            try:
+                verification_code = generate_verification_code()
+                send_phone_verification(
+                    phone_number=customer.phone_number,
+                    verification_code=verification_code,
+                )
+                customer.verification_code = verification_code
+                customer.verification_code_expiry = timezone.now() + timedelta(
+                    minutes=30
+                )
+                customer.save()
+            except Exception as e:
+                raise EmailServiceError({"detail": str(e)})
 
         return Response(serializer.data)
 

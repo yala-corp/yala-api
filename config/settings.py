@@ -192,3 +192,7 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True
+
+SMS_MOBILE_API_URL = "https://api.labsmobile.com/json/send"
+SMS_MOBILE_USERNAME = os.environ.get("SMS_MOBILE_USERNAME", "")
+SMS_MOBILE_TOKEN = os.environ.get("SMS_MOBILE_TOKEN", "")

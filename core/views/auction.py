@@ -5,8 +5,10 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 from core.serializers.auction import AuctionSerializer, AuctionCreateSerializer
 from core.serializers.bid import AuctionBidSerializer
@@ -25,8 +27,31 @@ class AuctionViewSet(
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    # def get_parser_classes(self):
+    #     if self.action == 'create':
+    #         return [MultiPartParser, FormParser]
+    #     return super().get_parser_classes()
+
+    # @swagger_auto_schema(
+    #     request_body=AuctionCreateSerializer,
+    #     responses={status.HTTP_201_CREATED: AuctionSerializer},
+    # )
     @swagger_auto_schema(
-        request_body=AuctionCreateSerializer,
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'title': openapi.Schema(type=openapi.TYPE_STRING),
+                'description': openapi.Schema(type=openapi.TYPE_STRING),
+                'starting_price': openapi.Schema(type=openapi.TYPE_NUMBER, format=openapi.FORMAT_DECIMAL),
+                'price': openapi.Schema(type=openapi.TYPE_NUMBER, format=openapi.FORMAT_DECIMAL),
+                'start_date': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME),
+                'end_date': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME),
+                'category': openapi.Schema(type=openapi.TYPE_STRING),
+                'state': openapi.Schema(type=openapi.TYPE_STRING),
+                'images': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING, format=openapi.FORMAT_BINARY))
+            },
+            required=['title', 'description', 'starting_price', 'price', 'start_date', 'end_date', 'category', 'state', 'images']
+        ),
         responses={status.HTTP_201_CREATED: AuctionSerializer},
     )
     def create(self, request, *args, **kwargs):

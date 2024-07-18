@@ -39,7 +39,43 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/AuctionCreate'
+          required:
+          - title
+          - description
+          - starting_price
+          - price
+          - start_date
+          - end_date
+          - category
+          - state
+          - images
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            starting_price:
+              type: number
+              format: decimal
+            price:
+              type: number
+              format: decimal
+            start_date:
+              type: string
+              format: date-time
+            end_date:
+              type: string
+              format: date-time
+            category:
+              type: string
+            state:
+              type: string
+            images:
+              type: array
+              items:
+                type: string
+                format: binary
       responses:
         '201':
           description: ''
@@ -414,71 +450,6 @@ definitions:
         title: Seller
         description: Auction seller
         type: integer
-  AuctionCreate:
-    required:
-    - title
-    - description
-    - starting_price
-    - price
-    - start_date
-    - end_date
-    - category
-    - state
-    - images
-    type: object
-    properties:
-      title:
-        title: Title
-        description: Product name
-        type: string
-        maxLength: 100
-        minLength: 1
-      description:
-        title: Description
-        description: Product description
-        type: string
-        minLength: 1
-      starting_price:
-        title: Starting price
-        description: Starting price
-        type: string
-        format: decimal
-      price:
-        title: Price
-        description: Final price
-        type: string
-        format: decimal
-      start_date:
-        title: Start date
-        description: Auction start date
-        type: string
-        format: date-time
-      end_date:
-        title: End date
-        description: Auction end date
-        type: string
-        format: date-time
-      category:
-        title: Category
-        description: Auction category
-        type: string
-        maxLength: 50
-      state:
-        title: State
-        description: Auction State
-        type: integer
-        enum:
-        - 1
-        - 2
-        - 3
-        - 4
-        - 5
-      images:
-        type: array
-        items:
-          type: string
-          readOnly: true
-          format: uri
   AuctionBid:
     required:
     - amount

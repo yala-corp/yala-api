@@ -33,9 +33,16 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             )
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        bid = serializer.save(customer=customer)
-
         auction = serializer.validated_data["auction"]
+
+        bids = Bid.objects.filter(auction=auction)
+        if bids.count() > 0 and serializer.validated_data["amount"] <= auction.price:
+            return Response(
+                {"detail": "Price must be higher than the current price"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        bid = serializer.save(customer=customer)
         auction.price = serializer.validated_data["amount"]
         auction.winner = customer
         auction.save()

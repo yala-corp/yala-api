@@ -47,6 +47,7 @@ class CustomerUpdateSerializer(serializers.ModelSerializer):
     address = serializers.CharField(required=False)
     bank_name = serializers.CharField(required=False)
     cci = serializers.CharField(required=False)
+
     class Meta:
         model = Customer
         fields = [

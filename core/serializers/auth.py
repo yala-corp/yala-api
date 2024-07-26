@@ -91,7 +91,7 @@ class UserGoogleSerializer(serializers.Serializer):
         if user:
             return user, False
         user = User(
-            username=validated_data["email"],
+            username=validated_data["name"],
             email=validated_data["email"],
             first_name=validated_data["name"],
         )

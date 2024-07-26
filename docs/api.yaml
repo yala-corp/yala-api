@@ -339,13 +339,8 @@ definitions:
         type: string
         format: uuid
         readOnly: true
-      first_name:
-        title: First name
-        type: string
-        readOnly: true
-        minLength: 1
-      last_name:
-        title: Last name
+      username:
+        title: Username
         type: string
         readOnly: true
         minLength: 1
@@ -520,11 +515,20 @@ definitions:
   User:
     description: User object
     required:
+    - username
     - first_name
     - last_name
     - email
     type: object
     properties:
+      username:
+        title: Username
+        description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          only.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
       first_name:
         title: First name
         type: string
@@ -570,12 +574,21 @@ definitions:
         minLength: 1
   UserCreate:
     required:
+    - username
     - first_name
     - last_name
     - email
     - password
     type: object
     properties:
+      username:
+        title: Username
+        description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          only.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
       first_name:
         title: First name
         type: string

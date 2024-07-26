@@ -8,8 +8,9 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email"]
+        fields = ["username", "first_name", "last_name", "email"]
         extra_kwargs = {
+            "username": {"required": True},
             "first_name": {"required": True},
             "last_name": {"required": True},
             "email": {"required": True},
@@ -38,8 +39,9 @@ class UserLoginSerializer(serializers.Serializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email", "password"]
+        fields = ["username", "first_name", "last_name", "email", "password"]
         extra_kwargs = {
+            "username": {"required": True},
             "first_name": {"required": True},
             "last_name": {"required": True},
             "email": {"required": True},
@@ -49,11 +51,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if User.objects.filter(email=data["email"]).exists():
             raise serializers.ValidationError("Email already exists")
+        if User.objects.filter(username=data["username"]).exists():
+            raise serializers.ValidationError("Username already exists")
         return data
 
     def create(self, validated_data):
         user = User(
-            username=validated_data["email"],
+            username=validated_data["username"],
             email=validated_data["email"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],

@@ -13,6 +13,8 @@ class CustomerSerializer(serializers.ModelSerializer):
             "cci",
             "address",
             "phone_number",
+            "validated_email",
+            "validated_phone",
         ]
         extra_kwargs = {
             "document_number": {"required": True},
@@ -20,6 +22,8 @@ class CustomerSerializer(serializers.ModelSerializer):
             "bank_name": {"required": True},
             "cci": {"required": True},
             "address": {"required": True},
+            "validated_email": {"required": True},
+            "validated_phone": {"required": True},
         }
 
 

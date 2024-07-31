@@ -716,6 +716,8 @@ definitions:
     - cci
     - address
     - phone_number
+    - validated_email
+    - validated_phone
     type: object
     properties:
       id:
@@ -758,6 +760,14 @@ definitions:
         type: string
         maxLength: 10
         minLength: 1
+      validated_email:
+        title: Validated email
+        description: Customer email validation
+        type: boolean
+      validated_phone:
+        title: Validated phone
+        description: Customer phone validation
+        type: boolean
   CustomerVerification:
     required:
     - verification_code

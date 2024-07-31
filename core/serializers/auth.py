@@ -90,8 +90,14 @@ class UserGoogleSerializer(serializers.Serializer):
         user = User.objects.filter(email=validated_data["email"]).first()
         if user:
             return user, False
+
+        email = validated_data["email"]
+        try:
+            username = email.split("@")[0]
+        except Exception:
+            username = email
         user = User(
-            username=validated_data["name"],
+            username=username,
             email=validated_data["email"],
             first_name=validated_data["name"],
         )

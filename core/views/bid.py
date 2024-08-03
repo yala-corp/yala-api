@@ -1,3 +1,6 @@
+from datetime import timedelta
+from django.utils import timezone
+
 from rest_framework import status
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
@@ -43,6 +46,9 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             )
 
         bid = serializer.save(customer=customer)
+        if auction.end_date < timezone.now() + timedelta(minutes=3):
+            auction.end_date = timezone.now() + timedelta(minutes=3)
+
         auction.price = serializer.validated_data["amount"]
         auction.winner = customer
         auction.save()

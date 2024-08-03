@@ -94,7 +94,7 @@ class AuthViewSet(viewsets.GenericViewSet):
 
         if created:
             try:
-                _ = Customer.objects.create(user=user)
+                _ = Customer.objects.create(user=user, validated_email=True)
             except Exception as e:
                 raise EmailServiceError({"detail": str(e)})
 

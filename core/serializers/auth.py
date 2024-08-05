@@ -1,3 +1,5 @@
+from random import sample
+
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -91,11 +93,19 @@ class UserGoogleSerializer(serializers.Serializer):
         if user:
             return user, False
 
-        email = validated_data["email"]
         try:
+            email = validated_data["email"]
             username = email.split("@")[0]
         except Exception:
             username = email
+
+        if User.objects.get(username=username):
+            sample_numbers = sample(range(1000, 9999), 100)
+            for i in sample_numbers:
+                username = f"{username}{i}"
+                if not User.objects.get(username=username):
+                    break
+
         user = User(
             username=username,
             email=validated_data["email"],

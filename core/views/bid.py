@@ -39,9 +39,9 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         auction = serializer.validated_data["auction"]
 
         bids = Bid.objects.filter(auction=auction)
-        if bids.count() > 0 and serializer.validated_data["amount"] <= auction.price:
+        if bids.count() > 0 and serializer.validated_data["amount"] < auction.price + 5:
             return Response(
-                {"detail": "Price must be higher than the current price"},
+                {"detail": "El precio debe ser mayor que el actual más 5"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

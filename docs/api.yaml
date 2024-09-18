@@ -490,8 +490,8 @@ definitions:
         description: Bid date
         type: string
         format: date-time
-      name:
-        title: Name
+      username:
+        title: Username
         type: string
         readOnly: true
         minLength: 1

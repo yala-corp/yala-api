@@ -3,12 +3,12 @@ from core.models import Bid
 
 
 class AuctionBidSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="customer.user.first_name", read_only=True)
+    username = serializers.CharField(source="customer.user.username", read_only=True)
     date = serializers.DateTimeField(required=True, help_text="Bid date")
 
     class Meta:
         model = Bid
-        fields = ["amount", "date", "name"]
+        fields = ["amount", "date", "username"]
 
 
 class BidSerializer(serializers.ModelSerializer):

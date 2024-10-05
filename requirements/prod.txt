@@ -91,3 +91,7 @@ urllib3==1.26.18
     #   sentry-sdk
 whitenoise==6.7.0
     # via -r requirements/base.in
+
+channels==4.0.0
+channels-redis==4.1.0
+daphne==4.0.0

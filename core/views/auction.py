@@ -37,7 +37,7 @@ class AuctionViewSet(
         serializer = AuctionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        images = serializer.validated_data.pop("images")
+        images = serializer.validated_data.pop("images", [])  # Devolver lista vacía si no hay imágene
 
         auction = serializer.save(seller=seller, winner=winner)
 

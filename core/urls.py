@@ -15,5 +15,4 @@ router.register(prefix=r"auctions", viewset=AuctionViewSet, basename="auction")
 
 router.register(prefix=r"bids", viewset=BidViewSet, basename="bid")
 
-
 urlpatterns = router.urls

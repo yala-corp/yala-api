@@ -13,7 +13,6 @@ def generate_verification_code():
 
 def send_phone_verification(phone_number, verification_code):
     user_token = f"{SMS_MOBILE_USERNAME}:{SMS_MOBILE_TOKEN}"
-    print("user_token", user_token)
     credentials = base64.b64encode(user_token.encode()).decode()
 
     payload = json.dumps(

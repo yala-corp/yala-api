@@ -21,9 +21,7 @@ class AuctionSerializer(serializers.ModelSerializer):
 
 
 class AuctionCreateSerializer(serializers.ModelSerializer):
-    images = serializers.ListField(
-        child=serializers.ImageField(), write_only=True, required=False
-    )
+    images = serializers.ListField(child=serializers.ImageField(), write_only=True)
 
     class Meta:
         model = Auction
@@ -48,4 +46,5 @@ class AuctionCreateSerializer(serializers.ModelSerializer):
             "image": {"required": True},
             "category": {"required": True},
             "state": {"required": True},
+            "images": {"required": True},
         }

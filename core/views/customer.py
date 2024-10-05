@@ -54,6 +54,7 @@ class CustomerViewSet(
         serializer = CustomerUpdateSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         customer: Customer = serializer.save()
+
         if not customer.validated_phone and customer.phone_number:
             try:
                 verification_code = generate_verification_code()
@@ -61,6 +62,7 @@ class CustomerViewSet(
                     phone_number=customer.phone_number,
                     verification_code=verification_code,
                 )
+                customer.verification_code = verification_code
                 customer.verification_code_expiry = timezone.now() + timedelta(
                     minutes=30
                 )

@@ -31,6 +31,7 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     def create(self, request, *args, **kwargs):
         customer = request.user.customer
         seller = Auction.objects.get(pk=request.data["auction"]).seller
+
         if customer.id == seller.id:
             return Response(
                 {"detail": "You can't bid on your own auction"},
@@ -41,7 +42,7 @@ class BidViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         auction = serializer.validated_data["auction"]
 
         bids = Bid.objects.filter(auction=auction)
-        # print(bids)
+
         if bids.count() > 0 and serializer.validated_data["amount"] < auction.price + 5:
             return Response(
                 {"detail": "El precio debe ser mayor que el actual más 5"},

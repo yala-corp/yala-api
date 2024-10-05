@@ -23,7 +23,7 @@ from core.serializers.auth import (
 from core.exceptions import EmailServiceError
 from core.models import Customer
 
-from config.settings import EMAIL_HOST_USER
+from config.settings import DEFAULT_FROM_EMAIL
 from core.templates import EMAIL_VERIFICATION_CODE_MESSAGE
 
 
@@ -64,7 +64,7 @@ class AuthViewSet(viewsets.GenericViewSet):
             send_mail(
                 subject=f"Bienvenido a Yala",
                 message=EMAIL_VERIFICATION_CODE_MESSAGE.format(code=verification_code),
-                from_email=EMAIL_HOST_USER,
+                from_email=DEFAULT_FROM_EMAIL,
                 recipient_list=[serializer.validated_data["email"]],
                 fail_silently=False,
             )

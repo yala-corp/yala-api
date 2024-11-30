@@ -11,10 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="auction",
-            name="image",
-        ),
+       # migrations.RemoveField(
+        #    model_name="auction",
+         #   name="image",
+        #),
         migrations.AddField(
             model_name="auction",
             name="state",

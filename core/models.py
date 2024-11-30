@@ -69,6 +69,7 @@ class Auction(models.Model):
         related_name="auctions_won",
         help_text="Auction winner",
         blank=True,
+        null=True,
     )
     seller = models.ForeignKey(
         Customer,

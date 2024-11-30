@@ -127,3 +127,7 @@ zipp==3.19.2
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
+
+channels==4.0.0
+channels-redis==4.1.0
+daphne==4.0.0

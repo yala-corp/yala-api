@@ -30,7 +30,7 @@ IS_PRODUCTION = os.environ.get("ENVIRON", default="local") == "production"
 DEBUG = not IS_PRODUCTION
 
 ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1,0.0.0.0"
+    "DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1,0.0.0.0,http://localhost:3000/"
 ).split(",")
 
 CSRF_TRUSTED_ORIGINS = os.environ.get(
@@ -41,6 +41,7 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -106,9 +107,19 @@ SWAGGER_SETTINGS = {
 }
 
 
+## ASGI
+ASGI_APPLICATION = "config.asgi.application"
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.getenv("REDIS_HOST", "localhost"), 6379)],
+        },
+    },
+}
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
